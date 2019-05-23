@@ -285,7 +285,7 @@ Client specific:
   --get-server-output       get results from server
   ```
 
-## Intiating a Service with just Docker
+## Intiating a Server with just Docker
 
 ```
 * docker run  -it --rm --name=iperf-server -p 5201:5201 gokulpch/iperf3-netperf:v1.0 -s
