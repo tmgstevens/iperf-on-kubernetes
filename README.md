@@ -235,7 +235,11 @@ kubectl create -f kubernetes-manifests/iperf-client-deployment.yaml
 # Docker Usage
 
 ```
-root@kubeiot:~# docker run -it --rm -p 5201:5201 gokulpch/iperf3-netperf:v1.0 --help
+# docker run -it --rm -p 5201:5201 gokulpch/iperf3-netperf:v1.0 --help
+
+
+
+
 Usage: iperf [-s|-c host] [options]
        iperf [-h|--help] [-v|--version]
 
