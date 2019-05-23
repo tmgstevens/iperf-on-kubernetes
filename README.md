@@ -14,6 +14,10 @@ By default if "run-iperf.sh" is used:
 
 ![](images/topo1.png)
 
+* Iperf Server created as a Kubernetes Deployment
+
+![](images/topo2.png)
+
 * Iperf Clients created as a Kubernetes Daemonsets
 
 ![](images/topo3.png)
