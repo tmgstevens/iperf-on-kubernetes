@@ -10,6 +10,12 @@ By default if "run-iperf.sh" is used:
 1. A Iperf-Server is created as a Deployment
 2. A Iperf-Client is created as a Daemonset. Each Client will be created on all the nodes including Masters and Iperf will be done for each host.
 
+* Iperf Server and Client as Deployment and Daemonset
+
+![](images/image.png)
+
+
+
 
 ## Sample Execution of "run-iperf.sh" on a three node cluster (three masters tainted to be nodes)
 
