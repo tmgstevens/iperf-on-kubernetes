@@ -12,8 +12,15 @@ By default if "run-iperf.sh" is used:
 
 * Iperf Server and Client as Deployment and Daemonset
 
-![](images/image.png)
+![](images/topo1.png)
 
+* Iperf Clients created as a Kubernetes Daemonsets
+
+![](images/topo3.png)
+
+* Iperf Server - Service using Service Type: ClusterIP
+
+![](images/topo4.png)
 
 
 
