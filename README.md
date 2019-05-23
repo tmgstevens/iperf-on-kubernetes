@@ -283,17 +283,27 @@ Client specific:
 
 ## Intiating a Service with just Docker
 
-### docker run  -it --rm --name=iperf-server -p 5201:5201 gokulpch/iperf3-netperf:v1.0 -s
+```
+* docker run  -it --rm --name=iperf-server -p 5201:5201 gokulpch/iperf3-netperf:v1.0 -s
+
+
 -----------------------------------------------------------
 Server listening on 5201
 -----------------------------------------------------------
+```
+
 
 ## Initiating a Client with just Docker
 
-### docker inspect --format "{{ .NetworkSettings.IPAddress }}" iperf-server
-172.17.0.2
+```
+* docker inspect --format "{{ .NetworkSettings.IPAddress }}" iperf-server
 
-### docker run  -it --rm gokulpch/iperf3-netperf:v1.0 -c 172.17.0.2
+172.17.0.2
+```
+
+```
+* docker run  -it --rm gokulpch/iperf3-netperf:v1.0 -c 172.17.0.2
+
 Connecting to host 172.17.0.2, port 5201
 [  4] local 172.17.0.3 port 33590 connected to 172.17.0.2 port 5201
 [ ID] Interval           Transfer     Bandwidth       Retr  Cwnd
@@ -313,3 +323,5 @@ Connecting to host 172.17.0.2, port 5201
 [  4]   0.00-10.00  sec  14.1 GBytes  12.1 Gbits/sec                  receiver
 
 iperf Done.
+
+```
