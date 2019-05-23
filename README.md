@@ -231,3 +231,85 @@ iperf Done.
 ```
 kubectl create -f kubernetes-manifests/iperf-client-deployment.yaml
 ```
+
+# Docker Usage
+
+```
+root@kubeiot:~# docker run -it --rm -p 5201:5201 gokulpch/iperf3-netperf:v1.0 --help
+Usage: iperf [-s|-c host] [options]
+       iperf [-h|--help] [-v|--version]
+
+Server or Client:
+  -p, --port      #         server port to listen on/connect to
+  -f, --format    [kmgKMG]  format to report: Kbits, Mbits, KBytes, MBytes
+  -i, --interval  #         seconds between periodic bandwidth reports
+  -F, --file name           xmit/recv the specified file
+  -A, --affinity n/n,m      set CPU affinity
+  -B, --bind      <host>    bind to a specific interface
+  -V, --verbose             more detailed output
+  -J, --json                output in JSON format
+  -d, --debug               emit debugging output
+  -v, --version             show version information and quit
+  -h, --help                show this message and quit
+Server specific:
+  -s, --server              run in server mode
+  -D, --daemon              run the server as a daemon
+Client specific:
+  -c, --client    <host>    run in client mode, connecting to <host>
+  -u, --udp                 use UDP rather than TCP
+  -b, --bandwidth #[KMG][/#] target bandwidth in bits/sec (0 for unlimited)
+                            (default 1 Mbit/sec for UDP, unlimited for TCP)
+                            (optional slash and packet count for burst mode)
+  -t, --time      #         time in seconds to transmit for (default 10 secs)
+  -n, --bytes     #[KMG]    number of bytes to transmit (instead of -t)
+  -k, --blockcount #[KMG]   number of blocks (packets) to transmit (instead of -t or -n)
+  -l, --len       #[KMG]    length of buffer to read or write
+                            (default 128 KB for TCP, 8 KB for UDP)
+  -P, --parallel  #         number of parallel client streams to run
+  -R, --reverse             run in reverse mode (server sends, client receives)
+  -w, --window    #[KMG]    TCP window size (socket buffer size)
+  -C, --linux-congestion <algo>  set TCP congestion control algorithm (Linux only)
+  -M, --set-mss   #         set TCP maximum segment size (MTU - 40 bytes)
+  -N, --nodelay             set TCP no delay, disabling Nagle's Algorithm
+  -4, --version4            only use IPv4
+  -6, --version6            only use IPv6
+  -S, --tos N               set the IP 'type of service'
+  -L, --flowlabel N         set the IPv6 flow label (only supported on Linux)
+  -Z, --zerocopy            use a 'zero copy' method of sending data
+  -O, --omit N              omit the first n seconds
+  -T, --title str           prefix every output line with this string
+  --get-server-output       get results from server
+  ```
+
+## Intiating a Service with just Docker
+
+### docker run  -it --rm --name=iperf-server -p 5201:5201 gokulpch/iperf3-netperf:v1.0 -s
+-----------------------------------------------------------
+Server listening on 5201
+-----------------------------------------------------------
+
+## Initiating a Client with just Docker
+
+### docker inspect --format "{{ .NetworkSettings.IPAddress }}" iperf-server
+172.17.0.2
+
+### docker run  -it --rm gokulpch/iperf3-netperf:v1.0 -c 172.17.0.2
+Connecting to host 172.17.0.2, port 5201
+[  4] local 172.17.0.3 port 33590 connected to 172.17.0.2 port 5201
+[ ID] Interval           Transfer     Bandwidth       Retr  Cwnd
+[  4]   0.00-1.00   sec  1.42 GBytes  12.2 Gbits/sec  689   1.10 MBytes
+[  4]   1.00-2.00   sec  1.38 GBytes  11.9 Gbits/sec  213   1.10 MBytes
+[  4]   2.00-3.00   sec  1.16 GBytes  9.97 Gbits/sec    0   1.10 MBytes
+[  4]   3.00-4.00   sec  1.36 GBytes  11.7 Gbits/sec    0   1.10 MBytes
+[  4]   4.00-5.00   sec  1.52 GBytes  13.1 Gbits/sec    0   1.10 MBytes
+[  4]   5.00-6.00   sec  1.51 GBytes  12.9 Gbits/sec    0   1.10 MBytes
+[  4]   6.00-7.00   sec  1.51 GBytes  13.0 Gbits/sec    1    789 KBytes
+[  4]   7.00-8.00   sec  1.53 GBytes  13.1 Gbits/sec    0   1.10 MBytes
+[  4]   8.00-9.00   sec  1.53 GBytes  13.1 Gbits/sec    0   1.10 MBytes
+[  4]   9.00-10.00  sec  1.14 GBytes  9.78 Gbits/sec    0   1.10 MBytes
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bandwidth       Retr
+[  4]   0.00-10.00  sec  14.1 GBytes  12.1 Gbits/sec  903             sender
+[  4]   0.00-10.00  sec  14.1 GBytes  12.1 Gbits/sec                  receiver
+
+iperf Done.
