@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iperf-clients
+  labels:
+    app: iperf-client
+spec:
+  selector:
+    matchLabels:
+      app: iperf-client
+  template:
+    metadata:
+      labels:
+        app: iperf-client
+    spec:
+      tolerations:
+        - key: node-role.kubernetes.io/master
+          operator: Exists
+          effect: NoSchedule
+      containers:
+      - name: iperf-client
+        image: gokulpch/iperf3-netperf:v1.0
+        command: ['/bin/sh', '-c', 'sleep infinity']
+        # manually initiate perf tests: kubectl exec iperf-clients-jlfxq -- /bin/sh -c 'iperf -c iperf-server'
+      terminationGracePeriodSeconds: 0
