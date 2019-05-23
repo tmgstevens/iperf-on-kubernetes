@@ -178,3 +178,56 @@ deployment.apps "iperf-server-deployment" deleted
 service "iperf-server" deleted
 daemonset.apps "iperf-clients" deleted
 ```
+
+
+## Running Tests Manually
+
+* Create Iperf Server Deployment
+```
+kubectl create -f kubernetes-manifests/iperf-server-deployment.yaml
+```
+* Create Iperf Server Service 
+```
+kubectl create -f kubernetes-manifests/iperf-server-service.yaml
+```
+* Create Iperf Client Daemonset 
+```
+kubectl create -f kubernetes-manifests/iperf-client-daemonset.yaml
+```
+* Run Iperf Tests from Iperf Client Pods
+```
+# kubectl get pods -l app=iperf-client -o name | cut -d'/' -f2
+
+iperf-clients-24cw4
+iperf-clients-h4hx6
+iperf-clients-kgbc9
+
+# Run Iperf with Kubectl
+
+# kubectl exec iperf-clients-h4hx6 -- /bin/sh -c 'iperf3 -c iperf-server'
+
+Connecting to host iperf-server, port 5201
+[  4] local 192.168.1.22 port 37922 connected to 10.107.33.39 port 5201
+[ ID] Interval           Transfer     Bandwidth       Retr  Cwnd
+[  4]   0.00-1.00   sec   391 MBytes  3.28 Gbits/sec  104    587 KBytes
+[  4]   1.00-2.00   sec   337 MBytes  2.83 Gbits/sec  1194    821 KBytes
+[  4]   2.00-3.00   sec   428 MBytes  3.58 Gbits/sec  192    645 KBytes
+[  4]   3.00-4.00   sec   441 MBytes  3.71 Gbits/sec    0    645 KBytes
+[  4]   4.00-5.00   sec   455 MBytes  3.81 Gbits/sec    0    645 KBytes
+[  4]   5.00-6.00   sec   421 MBytes  3.53 Gbits/sec    0    645 KBytes
+[  4]   6.00-7.00   sec   462 MBytes  3.88 Gbits/sec    0    645 KBytes
+[  4]   7.00-8.00   sec   475 MBytes  3.99 Gbits/sec    0    645 KBytes
+[  4]   8.00-9.00   sec   479 MBytes  4.01 Gbits/sec    0    645 KBytes
+[  4]   9.00-10.00  sec   481 MBytes  4.05 Gbits/sec    0    645 KBytes
+- - - - - - - - - - - - - - - - - - - - - - - - -
+[ ID] Interval           Transfer     Bandwidth       Retr
+[  4]   0.00-10.00  sec  4.27 GBytes  3.67 Gbits/sec  1490             sender
+[  4]   0.00-10.00  sec  4.27 GBytes  3.67 Gbits/sec                  receiver
+
+iperf Done.
+```
+
+* Create Iperf Client as a Deployment 
+```
+kubectl create -f kubernetes-manifests/iperf-client-deployment.yaml
+```
