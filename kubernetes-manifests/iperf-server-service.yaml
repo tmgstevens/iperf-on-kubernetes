@@ -3,9 +3,27 @@ kind: Service
 metadata:
   name: iperf-server
 spec:
+  clusterIP: 10.100.21.59
+  clusterIPs:
+  - 10.100.21.59
+  externalTrafficPolicy: Local
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - nodePort: 30521
+    name: iperf3
+    port: 5201
+    protocol: TCP
+    targetPort: 5201
+  - nodePort: 30501
+    name: iperf2
+    port: 5001
+    protocol: TCP
+    targetPort: 5001
   selector:
     app: iperf-server
-  ports:
-  - protocol: TCP
-    port: 5201
-    targetPort: server
+  sessionAffinity: None
+  type: NodePort
+status:
+  loadBalancer: {}
